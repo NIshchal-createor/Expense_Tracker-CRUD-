@@ -1,2 +1,3 @@
 Pipfile.lock
 .idea
+db.sqlite3
