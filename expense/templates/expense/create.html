@@ -8,7 +8,7 @@
     <div class="col-md-8">
       <h2 class="mb-4 text-center">Create Expense</h2>
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4>{{ category.slug }}</h4>
+        <h4>{{ category }}</h4>
       </div>
       <form method="post" action = "{% url  'expenses:add' category.slug %}">
         {% csrf_token %}

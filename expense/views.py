@@ -10,8 +10,9 @@ from django.shortcuts import redirect, render
 
 class CreateExpense(View):
     def get(self, request, slug):
-        try:
+        try:   
             category = Category.objects.get(slug=slug)
+            print(category)
             return render(request, template_name='expense/create.html', context={'category': category})
         except Exception as e:
             return render(request, template_name='expense/create.html', context={'error': e})
@@ -41,3 +42,35 @@ class ListExpenses(View):
         except Exception as e:
             print(e)
             return render(request, template_name="expense/list.html", context={'error': e})
+
+
+class DeleteExpenses(View):
+    def post(self, request, pk):
+        try:
+            expense = Expense.objects.get(pk=pk)
+            category = Category.objects.get(pk=expense.category_id)
+            expense.delete()
+            return redirect('expenses:list', slug = category.slug)
+        except Exception as e:
+            redirect('expenses:list', slug = category.slug)
+
+class UpdateCategory(View):
+    def get(self, request, pk):
+        try:
+            expense = Expense.objects.get(pk=pk)
+            category = Category.objects.get(pk=expense.category_id)
+            return render(request, 'expense/update.html', context={'expense': expense, 'category_slug': category.slug})
+        except Exception as e:
+            return redirect('expenses:list', slug = category.slug)
+    def post(self, request, pk):
+        try:
+            expense = Expense.objects.get(pk=pk)
+            category = Category.objects.get(pk=expense.category_id)
+            expense.description = request.POST['description']
+            expense.amount = float(request.POST['amount']) 
+            expense.save()
+            return redirect('expenses:list', slug = category.slug)
+        except Exception as e:
+            return redirect('expenses:update', slug = category.slug)
+
+            
