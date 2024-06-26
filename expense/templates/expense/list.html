@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}List of Expenses{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">List of Expenses</h2>
+      <div class = "d-flex justify-content-between">
+      <a href="{% url "expenses:add" category.slug %}" class="btn btn-primary mb-3">Add Expenses</a>
+      <a href="{% url "category:list" %}" class="btn btn-primary mb-3">Categories</a>
+      </div>
+      <ul class="list-group">
+        {% for expense in expenses %}
+          <li class="list-group-item">
+            <strong>Description:</strong> {{ expense.description }}<br>
+            <strong>Amount:</strong> {{ expense.amount }}<br>
+            <strong>Created At:</strong> {{ expense.created_at }}<br>
+            <a href="{% url 'expenses:update' expense.pk %}" class="btn btn-sm btn-warning">Update</a>
+            <form action="{% url 'expenses:delete' expense.pk %}" method="post" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </li>
+        {% empty %}
+          <li class="list-group-item">No expenses found.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

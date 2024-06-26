@@ -7,21 +7,22 @@ from django.urls import reverse_lazy
 # Create your views here.
 
 class CreateCategory(CreateView):
+    print("Entered Here")
     model = Category
-    template_name = 'create.html'
     form_class = CategoryForm
+    template_name = 'category/create.html'
     success_url = reverse_lazy('category:list')
 
 
 class ListCategory(ListView):
     model = Category
-    template_name = 'list.html'
+    template_name = 'category/list.html'
     context_object_name = 'categories'
 
 class UpdateCategory(UpdateView):
     model = Category
     form_class = CategoryForm
-    template_name = 'update.html'
+    template_name = 'category/update.html'
     success_url = reverse_lazy("category:list")
 
 

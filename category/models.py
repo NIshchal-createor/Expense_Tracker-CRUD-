@@ -15,3 +15,8 @@ class Category(models.Model):
     def save(self):
         self.slug = slugify(self.name)
         super().save()
+
+    class Meta:
+        db_table = 'category'
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'

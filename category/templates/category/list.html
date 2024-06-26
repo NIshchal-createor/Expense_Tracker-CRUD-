@@ -10,7 +10,7 @@
       <a href="{% url 'category:add' %}" class="btn btn-primary mb-3">Add Category</a>
       <ul class="list-group">
         {% for category in categories %}
-        <a href = "{% url "category:list" %}" class = 'text-dark text-decoration-none'>
+        <a href = "{% url "expenses:list" category.slug %}" class = 'text-dark text-decoration-none'>
           <li class="list-group-item d-flex justify-content-between align-items-center">
             {{ category.name }}
             <div class = "d-flex">
