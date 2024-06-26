@@ -7,15 +7,15 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <h2 class="mb-4">List of Expenses</h2>
-      <div class = "d-flex justify-content-between">
-      <a href="{% url "expenses:add" category.slug %}" class="btn btn-primary mb-3">Add Expenses</a>
-      <a href="{% url "category:list" %}" class="btn btn-primary mb-3">Categories</a>
+      <div class="d-flex justify-content-between">
+        <a href="{% url "expenses:add" category.slug %}" class="btn btn-primary mb-3">Add Expenses</a>
+        <a href="{% url "category:list" %}" class="btn btn-primary mb-3">Categories</a>
       </div>
       <ul class="list-group">
         {% for expense in expenses %}
           <li class="list-group-item">
             <strong>Description:</strong> {{ expense.description }}<br>
-            <strong>Amount:</strong> {{ expense.amount }}<br>
+            <strong>Amount:</strong> <span class="expense-amount">{{ expense.amount }}</span><br>
             <strong>Created At:</strong> {{ expense.created_at }}<br>
             <a href="{% url 'expenses:update' expense.pk %}" class="btn btn-sm btn-warning">Update</a>
             <form action="{% url 'expenses:delete' expense.pk %}" method="post" style="display: inline;">
@@ -27,7 +27,20 @@
           <li class="list-group-item">No expenses found.</li>
         {% endfor %}
       </ul>
+      <div class="mt-4">
+        <h4>Total Expenses: <span id="total-expenses">0</span></h4>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    let total = 0;
+    document.querySelectorAll('.expense-amount').forEach(function(element) {
+      total += parseFloat(element.textContent) || 0;
+    });
+    document.getElementById('total-expenses').textContent = total.toFixed(2);
+  });
+</script>
 {% endblock %}
